@@ -3,4 +3,4 @@ sequencial/10_kmeans
 sequencial/10_kmeans_perfil
 openmp/kmeans_omp
 mpi/kmeans_mpi
-__pycache__/
+scripts/analise_baseline

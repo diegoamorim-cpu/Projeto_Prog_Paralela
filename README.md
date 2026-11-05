@@ -17,8 +17,8 @@ docs/         análise do baseline e relatório
 
 ## Rodar do zero
 
-Ambiente: Linux com `g++`, OpenMP e OpenMPI (laboratório, Docker ou VM da disciplina),
-Python 3 com `pandas` e `matplotlib` para os gráficos.
+Ambiente: Linux com `g++`, OpenMP e OpenMPI (laboratório, Docker ou VM da disciplina).
+Tudo em C++: a análise também é um programa C++, que gera as tabelas e os gráficos em SVG.
 
 ```bash
 make                                   # compila sequencial, OpenMP e MPI
@@ -26,7 +26,7 @@ make                                   # compila sequencial, OpenMP e MPI
 
 ./scripts/medir_baseline.sh            # -> resultados/baseline.csv
 ./scripts/perfil.sh                    # -> resultados/perfil.csv
-python3 scripts/analise_baseline.py    # -> tabelas + resultados/perfil_fases.png
+./scripts/analise_baseline             # -> tabelas + resultados/perfil_fases.svg
 ```
 
 ## Protocolo de medição

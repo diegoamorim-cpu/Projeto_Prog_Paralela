@@ -1,0 +1,41 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='720' height='420' font-family='sans-serif' font-size='13'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='360' y='28' text-anchor='middle' font-size='16'>Perfil do baseline sequencial por fase</text>
+<line x1='70' x2='670' y1='350' y2='350' stroke='#e5e5e5'/>
+<text x='62' y='354' text-anchor='end'>0</text>
+<line x1='70' x2='670' y1='292' y2='292' stroke='#e5e5e5'/>
+<text x='62' y='296' text-anchor='end'>1</text>
+<line x1='70' x2='670' y1='234' y2='234' stroke='#e5e5e5'/>
+<text x='62' y='238' text-anchor='end'>2</text>
+<line x1='70' x2='670' y1='176' y2='176' stroke='#e5e5e5'/>
+<text x='62' y='180' text-anchor='end'>3</text>
+<line x1='70' x2='670' y1='118' y2='118' stroke='#e5e5e5'/>
+<text x='62' y='122' text-anchor='end'>4</text>
+<line x1='70' x2='670' y1='60' y2='60' stroke='#e5e5e5'/>
+<text x='62' y='64' text-anchor='end'>5</text>
+<rect x='100' y='341.826' width='90' height='8.17353' fill='#2a6fdb'/>
+<rect x='100' y='340.311' width='90' height='1.51525' fill='#f08c2e'/>
+<rect x='100' y='339.773' width='90' height='0.538008' fill='#bbbbbb'/>
+<text x='145' y='370' text-anchor='middle'>1 M</text>
+<rect x='250' y='300.094' width='90' height='49.9062' fill='#2a6fdb'/>
+<rect x='250' y='286.889' width='90' height='13.205' fill='#f08c2e'/>
+<rect x='250' y='283.524' width='90' height='3.36429' fill='#bbbbbb'/>
+<text x='295' y='370' text-anchor='middle'>5 M</text>
+<rect x='400' y='261.125' width='90' height='88.8752' fill='#2a6fdb'/>
+<rect x='400' y='234.845' width='90' height='26.2793' fill='#f08c2e'/>
+<rect x='400' y='227.971' width='90' height='6.87439' fill='#bbbbbb'/>
+<text x='445' y='370' text-anchor='middle'>10 M</text>
+<rect x='550' y='180.738' width='90' height='169.262' fill='#2a6fdb'/>
+<rect x='550' y='130.015' width='90' height='50.7231' fill='#f08c2e'/>
+<rect x='550' y='116.554' width='90' height='13.4606' fill='#bbbbbb'/>
+<text x='595' y='370' text-anchor='middle'>20 M</text>
+<line x1='70' x2='670' y1='350' y2='350' stroke='#333'/>
+<text x='370' y='398' text-anchor='middle'>Numero de pontos (N), K=8, 20 iteracoes</text>
+<text transform='translate(20,205) rotate(-90)' text-anchor='middle'>Tempo (s, mediana)</text>
+<rect x='82' y='64' width='14' height='12' fill='#2a6fdb'/>
+<text x='102' y='75'>Fase 1: atribuicao</text>
+<rect x='82' y='84' width='14' height='12' fill='#f08c2e'/>
+<text x='102' y='95'>Fase 2a: acumulacao</text>
+<rect x='82' y='104' width='14' height='12' fill='#bbbbbb'/>
+<text x='102' y='115'>Geracao dos pontos (fora do cronometro, serial)</text>
+</svg>

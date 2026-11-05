@@ -2,7 +2,7 @@
 
 > Números abaixo medidos numa máquina de teste com **2 núcleos** (Intel Xeon 2,1 GHz).
 > **Refazer as medições na máquina do laboratório** com `./scripts/medir_baseline.sh`
-> e `./scripts/perfil.sh` antes da entrega; as conclusões não devem mudar.
+> e `./scripts/perfil.sh` (depois `./scripts/analise_baseline`) antes da entrega; as conclusões não devem mudar.
 
 ## 1. O que o código faz
 

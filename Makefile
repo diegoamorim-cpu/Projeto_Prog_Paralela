@@ -6,10 +6,11 @@ CXXFLAGS = -O2 -Wall
 SEQ = sequencial/10_kmeans sequencial/10_kmeans_perfil
 OMP = openmp/kmeans_omp
 MPI = mpi/kmeans_mpi
+ANA = scripts/analise_baseline
 
-.PHONY: all seq omp mpi clean
+.PHONY: all seq omp mpi analise clean
 
-all: seq omp mpi
+all: seq omp mpi analise
 
 seq: $(SEQ)
 
@@ -25,5 +26,10 @@ mpi:
 	@if [ -f mpi/kmeans_mpi.cpp ]; then $(MPICXX) $(CXXFLAGS) -o $(MPI) mpi/kmeans_mpi.cpp; \
 	 else echo "mpi/kmeans_mpi.cpp ainda nao existe"; fi
 
+analise: $(ANA)
+
+$(ANA): scripts/analise_baseline.cpp
+	$(CXX) $(CXXFLAGS) -std=c++17 -o $@ $<
+
 clean:
-	rm -f $(SEQ) $(OMP) $(MPI)
+	rm -f $(SEQ) $(OMP) $(MPI) $(ANA)

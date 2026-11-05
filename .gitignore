@@ -1,0 +1,6 @@
+# binarios gerados pelo make
+sequencial/10_kmeans
+sequencial/10_kmeans_perfil
+openmp/kmeans_omp
+mpi/kmeans_mpi
+__pycache__/

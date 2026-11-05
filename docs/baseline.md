@@ -1,8 +1,20 @@
 # Baseline e Perfilamento — K-médias
 
-> Números abaixo medidos numa máquina de teste com **2 núcleos** (Intel Xeon 2,1 GHz).
-> **Refazer as medições na máquina do laboratório** com `./scripts/medir_baseline.sh`
-> e `./scripts/perfil.sh` (depois `./scripts/analise_baseline`) antes da entrega; as conclusões não devem mudar.
+## Máquina de medição
+
+Notebook Samsung Galaxy Book 2, processador **Intel Core i5-1235U (12ª geração)**,
+12 threads lógicas, Windows com Docker (Ubuntu 24.04, g++ e OpenMPI; ver `Dockerfile`).
+
+O i5-1235U é um processador **híbrido**: 2 núcleos de desempenho (P-cores, com
+hyperthreading, 4 threads) e 8 núcleos de eficiência (E-cores, 8 threads), num total
+de 10 núcleos físicos e 12 threads. Dentro do contêiner, o `lscpu` mostra uma topologia
+simplificada (6 núcleos × 2 threads), mas os núcleos reais são esses.
+Consequência para as curvas de speedup: depois de 2 threads, as threads extras vão
+para núcleos mais lentos (E-cores), e acima de 10 elas passam a dividir núcleo
+(hyperthreading). O speedup real deve crescer menos que o previsto nesses pontos.
+
+Recomendações seguidas nas medições: notebook na tomada, modo de energia "Melhor
+desempenho" e programas pesados fechados.
 
 ## 1. O que o código faz
 
@@ -34,11 +46,12 @@ Como N ≫ K, a divisão é desprezível e o custo está nas fases que percorrem
 | N | Checksum | Tempo (s) |
 |---|---|---|
 | 1 000 000 | 8109.0037 | 0,142 |
-| 5 000 000 | 8099.9055 | 1,080 |
-| 10 000 000 | 8100.4956 | 1,959 |
-| 20 000 000 | 8101.4537 | 3,741 |
+| 5 000 000 | 8099.9055 | 0,701 |
+| 10 000 000 | 8100.4956 | 1,401 |
+| 20 000 000 | 8101.4537 | 2,817 |
 
-O tempo cresce de forma aproximadamente linear em N, como previsto (K e IT fixos).
+O tempo cresce de forma linear em N, como previsto (K e IT fixos): dobrar N de 5M
+para 10M e de 10M para 20M dobra o tempo (0,70 → 1,40 → 2,82 s).
 Com N = 1M o tempo é curto demais (0,14 s) e o speedup fica dominado por ruído;
 **para a demonstração e as curvas, usar 10M ou 20M.**
 
@@ -49,19 +62,20 @@ que cronometra cada fase separadamente.
 
 | N | Atribuição | Acumulação | Divisão + resto | Geração (fora do cronômetro) |
 |---|---|---|---|---|
-| 1M | 84,4 % | 15,6 % | 0,02 % | 0,009 s |
-| 5M | 78,6 % | 20,8 % | 0,006 % | 0,058 s |
-| 10M | 77,3 % | 22,9 % | 0,004 % | 0,119 s |
-| 20M | 77,4 % | 23,2 % | 0,002 % | 0,232 s |
+| 1M | 83,3 % | 16,7 % | 0,03 % | 0,009 s |
+| 5M | 81,6 % | 17,5 % | 0,006 % | 0,048 s |
+| 10M | 82,5 % | 17,5 % | 0,004 % | 0,090 s |
+| 20M | 82,5 % | 17,5 % | 0,002 % | 0,215 s |
 
-**Hotspot principal: a fase de atribuição (~77–84 %).** A acumulação vem em segundo
-(~16–23 %). A divisão é irrelevante.
+**Hotspot principal: a fase de atribuição (~82–83 %).** A acumulação vem em segundo
+(~17 %). A divisão é irrelevante.
 
-Por que a acumulação pesa mais com N grande: ela faz pouca conta por ponto (3 somas)
-e lê `rotulo`, `px` e `py` da memória. Com N grande os vetores não cabem no cache
-(20M pontos = 160 MB só de `px` + `py`), então essa fase é **limitada por banda de
-memória**, não por processamento. Isso vai aparecer no speedup: a acumulação tende
-a escalar pior que a atribuição.
+Por que a acumulação merece atenção apesar de pesar menos: ela faz pouca conta por
+ponto (3 somas) e lê `rotulo`, `px` e `py` da memória. Com N grande os vetores não
+cabem no cache (20M pontos = 320 MB só de `px` + `py`), então essa fase é **limitada
+por banda de memória**, não por processamento. Isso vai aparecer no speedup: a
+acumulação tende a escalar pior que a atribuição, porque todos os núcleos disputam
+o mesmo barramento de memória.
 
 ## 5. Fração paralelizável e Lei de Amdahl
 
@@ -70,13 +84,15 @@ S(p) = 1 / ((1 − f) + f/p)
 **Visão A — região cronometrada (o que o professor mede):** atribuição e acumulação
 são paralelizáveis; só a divisão (O(K)) é serial. f ≈ **0,9998** →
 speedup previsto ≈ 2,0 (2 núcleos), 4,0 (4), 8,0 (8), 16,0 (16). Praticamente linear.
+Na prática, o teto no notebook é o número de núcleos (10 físicos, 12 threads), e
+os núcleos não são iguais (ver "Máquina de medição").
 
 **Visão B — programa inteiro:** a geração dos pontos é serial, porque o gerador
-depende do valor anterior (`s = s*a + 1`). Com ela, f ≈ **0,94–0,95**:
+depende do valor anterior (`s = s*a + 1`). Com ela, f ≈ **0,94**:
 
 | p | 2 | 4 | 8 | 16 | ∞ |
 |---|---|---|---|---|---|
-| Speedup previsto (20M) | 1,89 | 3,41 | 5,71 | 8,61 | ≈ 17,5 |
+| Speedup previsto (20M) | 1,88 | 3,36 | 5,53 | 8,18 | ≈ 15,7 |
 
 **Por que o speedup real vai ficar abaixo do previsto (para a discussão do Marco 2):**
 - **Sincronização global a cada iteração:** as threads/processos precisam terminar

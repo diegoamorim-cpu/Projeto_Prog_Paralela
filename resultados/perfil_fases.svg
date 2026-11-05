@@ -3,31 +3,29 @@
 <text x='360' y='28' text-anchor='middle' font-size='16'>Perfil do baseline sequencial por fase</text>
 <line x1='70' x2='670' y1='350' y2='350' stroke='#e5e5e5'/>
 <text x='62' y='354' text-anchor='end'>0</text>
-<line x1='70' x2='670' y1='292' y2='292' stroke='#e5e5e5'/>
-<text x='62' y='296' text-anchor='end'>1</text>
-<line x1='70' x2='670' y1='234' y2='234' stroke='#e5e5e5'/>
-<text x='62' y='238' text-anchor='end'>2</text>
-<line x1='70' x2='670' y1='176' y2='176' stroke='#e5e5e5'/>
-<text x='62' y='180' text-anchor='end'>3</text>
-<line x1='70' x2='670' y1='118' y2='118' stroke='#e5e5e5'/>
-<text x='62' y='122' text-anchor='end'>4</text>
+<line x1='70' x2='670' y1='277.5' y2='277.5' stroke='#e5e5e5'/>
+<text x='62' y='281.5' text-anchor='end'>1</text>
+<line x1='70' x2='670' y1='205' y2='205' stroke='#e5e5e5'/>
+<text x='62' y='209' text-anchor='end'>2</text>
+<line x1='70' x2='670' y1='132.5' y2='132.5' stroke='#e5e5e5'/>
+<text x='62' y='136.5' text-anchor='end'>3</text>
 <line x1='70' x2='670' y1='60' y2='60' stroke='#e5e5e5'/>
-<text x='62' y='64' text-anchor='end'>5</text>
-<rect x='100' y='341.826' width='90' height='8.17353' fill='#2a6fdb'/>
-<rect x='100' y='340.311' width='90' height='1.51525' fill='#f08c2e'/>
-<rect x='100' y='339.773' width='90' height='0.538008' fill='#bbbbbb'/>
+<text x='62' y='64' text-anchor='end'>4</text>
+<rect x='100' y='340.935' width='90' height='9.06511' fill='#2a6fdb'/>
+<rect x='100' y='339.121' width='90' height='1.81366' fill='#f08c2e'/>
+<rect x='100' y='338.462' width='90' height='0.65946' fill='#bbbbbb'/>
 <text x='145' y='370' text-anchor='middle'>1 M</text>
-<rect x='250' y='300.094' width='90' height='49.9062' fill='#2a6fdb'/>
-<rect x='250' y='286.889' width='90' height='13.205' fill='#f08c2e'/>
-<rect x='250' y='283.524' width='90' height='3.36429' fill='#bbbbbb'/>
+<rect x='250' y='308.114' width='90' height='41.8862' fill='#2a6fdb'/>
+<rect x='250' y='299.131' width='90' height='8.98239' fill='#f08c2e'/>
+<rect x='250' y='295.631' width='90' height='3.50088' fill='#bbbbbb'/>
 <text x='295' y='370' text-anchor='middle'>5 M</text>
-<rect x='400' y='261.125' width='90' height='88.8752' fill='#2a6fdb'/>
-<rect x='400' y='234.845' width='90' height='26.2793' fill='#f08c2e'/>
-<rect x='400' y='227.971' width='90' height='6.87439' fill='#bbbbbb'/>
+<rect x='400' y='263.811' width='90' height='86.189' fill='#2a6fdb'/>
+<rect x='400' y='245.519' width='90' height='18.292' fill='#f08c2e'/>
+<rect x='400' y='238.995' width='90' height='6.52435' fill='#bbbbbb'/>
 <text x='445' y='370' text-anchor='middle'>10 M</text>
-<rect x='550' y='180.738' width='90' height='169.262' fill='#2a6fdb'/>
-<rect x='550' y='130.015' width='90' height='50.7231' fill='#f08c2e'/>
-<rect x='550' y='116.554' width='90' height='13.4606' fill='#bbbbbb'/>
+<rect x='550' y='176.634' width='90' height='173.366' fill='#2a6fdb'/>
+<rect x='550' y='139.804' width='90' height='36.8299' fill='#f08c2e'/>
+<rect x='550' y='124.239' width='90' height='15.5645' fill='#bbbbbb'/>
 <text x='595' y='370' text-anchor='middle'>20 M</text>
 <line x1='70' x2='670' y1='350' y2='350' stroke='#333'/>
 <text x='370' y='398' text-anchor='middle'>Numero de pontos (N), K=8, 20 iteracoes</text>

@@ -27,7 +27,25 @@ make                                   # compila sequencial, OpenMP e MPI
 ./scripts/medir_baseline.sh            # -> resultados/baseline.csv
 ./scripts/perfil.sh                    # -> resultados/perfil.csv
 ./scripts/analise_baseline             # -> tabelas + resultados/perfil_fases.svg
+
+bash scripts/medir_openmp.sh           # -> resultados/openmp.csv
+./scripts/analise_paralelo openmp      # -> tabelas + graficos openmp_*.svg
 ```
+
+### Versão OpenMP
+
+```bash
+OMP_NUM_THREADS=8 ./openmp/kmeans_omp 20000000 8 20 reduction
+# 4o argumento: reduction (padrao) | atomic | critical
+# politica da atribuicao: OMP_SCHEDULE=static | "dynamic,1000" | guided ...
+```
+
+### Versão MPI (formato esperado pela análise)
+
+Para usar `./scripts/analise_paralelo mpi`, o script de medição do MPI deve gerar
+`resultados/mpi.csv` com as mesmas colunas de `resultados/openmp.csv`:
+`experimento,versao,N,K,IT,p,modo,schedule,rep,checksum,ok,tempo_s`
+(experimentos `forte` e `fraca`; `modo` e `schedule` podem ser `-`).
 
 ## Protocolo de medição
 

@@ -19,7 +19,7 @@ docs/         análise do baseline e relatório
 
 ### Ambiente
 
-Linux com `g++`, OpenMP e OpenMPI (laboratório ou VM da disciplina). No Windows,
+Linux com `c++`, OpenMP e OpenMPI (laboratório ou VM da disciplina). No Windows,
 use o contêiner do projeto (Docker Desktop aberto):
 
 ```bash

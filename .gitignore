@@ -4,3 +4,4 @@ sequencial/10_kmeans_perfil
 openmp/kmeans_omp
 mpi/kmeans_mpi
 scripts/analise_baseline
+scripts/analise_paralelo

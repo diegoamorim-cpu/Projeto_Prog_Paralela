@@ -6,7 +6,7 @@ CXXFLAGS = -O2 -Wall
 SEQ = sequencial/10_kmeans sequencial/10_kmeans_perfil
 OMP = openmp/kmeans_omp
 MPI = mpi/kmeans_mpi
-ANA = scripts/analise_baseline
+ANA = scripts/analise_baseline scripts/analise_paralelo
 
 .PHONY: all seq omp mpi analise clean
 
@@ -28,7 +28,7 @@ mpi:
 
 analise: $(ANA)
 
-$(ANA): scripts/analise_baseline.cpp
+scripts/analise_%: scripts/analise_%.cpp
 	$(CXX) $(CXXFLAGS) -std=c++17 -o $@ $<
 
 clean:

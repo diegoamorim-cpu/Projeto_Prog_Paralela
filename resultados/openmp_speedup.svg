@@ -1,0 +1,35 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='720' height='440' font-family='sans-serif' font-size='13'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='360' y='28' text-anchor='middle' font-size='16'>Speedup openmp (N=20M, K=8, 20 iteracoes)</text>
+<line x1='70' x2='670' y1='360' y2='360' stroke='#e5e5e5'/><text x='62' y='364' text-anchor='end'>0</text>
+<line x1='70' x2='670' y1='260' y2='260' stroke='#e5e5e5'/><text x='62' y='264' text-anchor='end'>5</text>
+<line x1='70' x2='670' y1='160' y2='160' stroke='#e5e5e5'/><text x='62' y='164' text-anchor='end'>10</text>
+<line x1='70' x2='670' y1='60' y2='60' stroke='#e5e5e5'/><text x='62' y='64' text-anchor='end'>15</text>
+<text x='70' y='380' text-anchor='middle'>0</text>
+<text x='120' y='380' text-anchor='middle'>1</text>
+<text x='170' y='380' text-anchor='middle'>2</text>
+<text x='220' y='380' text-anchor='middle'>3</text>
+<text x='270' y='380' text-anchor='middle'>4</text>
+<text x='320' y='380' text-anchor='middle'>5</text>
+<text x='370' y='380' text-anchor='middle'>6</text>
+<text x='420' y='380' text-anchor='middle'>7</text>
+<text x='470' y='380' text-anchor='middle'>8</text>
+<text x='520' y='380' text-anchor='middle'>9</text>
+<text x='570' y='380' text-anchor='middle'>10</text>
+<text x='620' y='380' text-anchor='middle'>11</text>
+<text x='670' y='380' text-anchor='middle'>12</text>
+<line x1='70' x2='670' y1='360' y2='360' stroke='#333'/>
+<text x='370' y='418' text-anchor='middle'>Numero de threads</text>
+<text transform='translate(20,210) rotate(-90)' text-anchor='middle'>Speedup (T_seq / T_p)</text>
+<polyline fill='none' stroke='#2a6fdb' stroke-width='2' points='120,341.265 170,327.869 270,322.073 370,317.409 470,310.031 570,308.808 670,317.376 '/>
+<circle cx='120' cy='341.265' r='4' fill='#2a6fdb'/>
+<circle cx='170' cy='327.869' r='4' fill='#2a6fdb'/>
+<circle cx='270' cy='322.073' r='4' fill='#2a6fdb'/>
+<circle cx='370' cy='317.409' r='4' fill='#2a6fdb'/>
+<circle cx='470' cy='310.031' r='4' fill='#2a6fdb'/>
+<circle cx='570' cy='308.808' r='4' fill='#2a6fdb'/>
+<circle cx='670' cy='317.376' r='4' fill='#2a6fdb'/>
+<line x1='82' x2='104' y1='70' y2='70' stroke='#2a6fdb' stroke-width='2'/><text x='110' y='75'>medido</text>
+<polyline fill='none' stroke='#999999' stroke-width='2' stroke-dasharray='6 4' points='120,340 170,320 270,280 370,240 470,200 570,160 670,120 '/>
+<line x1='82' x2='104' y1='90' y2='90' stroke='#999999' stroke-width='2' stroke-dasharray='6 4'/><text x='110' y='95'>ideal (S = p)</text>
+</svg>

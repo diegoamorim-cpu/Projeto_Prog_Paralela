@@ -1,0 +1,6 @@
+schedule,tempo_s
+static,0.2928
+static:1,0.58331
+dynamic:1,4.1723
+dynamic:1000,0.275632
+guided,0.269902

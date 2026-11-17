@@ -19,7 +19,7 @@ docs/         análise do baseline e relatório
 
 ### Ambiente
 
-Linux com `c++`, OpenMP e OpenMPI (laboratório ou VM da disciplina). No Windows,
+Linux com `g++`, OpenMP e OpenMPI (laboratório ou VM da disciplina). No Windows,
 use o contêiner do projeto (Docker Desktop aberto):
 
 ```bash
@@ -42,6 +42,9 @@ bash scripts/perfil.sh                 # -> resultados/perfil.csv
 
 bash scripts/medir_openmp.sh           # -> resultados/openmp.csv
 ./scripts/analise_paralelo openmp      # -> tabelas + graficos openmp_*.svg
+
+bash scripts/medir_mpi.sh              # -> resultados/mpi.csv e mpi_comm.csv
+./scripts/analise_paralelo mpi         # -> tabelas + graficos mpi_*.svg
 ```
 
 ### Versão OpenMP
@@ -52,12 +55,13 @@ OMP_NUM_THREADS=8 ./openmp/kmeans_omp 20000000 8 20 reduction
 # politica da atribuicao: OMP_SCHEDULE=static | "dynamic,1000" | guided ...
 ```
 
-### Versão MPI (formato esperado pela análise)
+### Versão MPI
 
-Para usar `./scripts/analise_paralelo mpi`, o script de medição do MPI deve gerar
-`resultados/mpi.csv` com as mesmas colunas de `resultados/openmp.csv`:
-`experimento,versao,N,K,IT,p,modo,schedule,rep,checksum,ok,tempo_s`
-(experimentos `forte` e `fraca`; `modo` e `schedule` podem ser `-`).
+```bash
+mpirun -np 8 ./mpi/kmeans_mpi 20000000 8 20
+# no contêiner, com mais processos que núcleos: mpirun --oversubscribe -np 12 ...
+# a saída traz também comm= (tempo dentro da MPI_Allreduce, maior entre os processos)
+```
 
 ## Protocolo de medição
 
@@ -66,6 +70,8 @@ Para usar `./scripts/analise_paralelo mpi`, o script de medição do MPI deve ge
 - OpenMP: escalabilidade forte com N = 20M e 1, 2, 4, 6, 8, 10 e 12 threads;
   escalabilidade fraca com 2M pontos por thread; comparação critical × atomic × reduction
   com N = 1M; comparação de políticas de escalonamento com N = 5M.
+- MPI: escalabilidade forte com N = 20M e 1, 2, 4, 6, 8, 10 e 12 processos;
+  escalabilidade fraca com 2M pontos por processo; tempo de comunicação gravado à parte.
 - Cada configuração: 1 execução de aquecimento descartada + 5 execuções medidas
   (3 nos experimentos de corrida, escalonamento e fraca); usa-se a **mediana**.
 - O tempo medido é o do laço de iterações (o cronômetro do próprio código do professor).
@@ -88,14 +94,16 @@ de threads ou processos. Gabarito:
 Os scripts de medição rodam o sequencial para cada N usado e gravam, em cada linha
 do CSV, a coluna `ok` (`SIM` quando o checksum é idêntico ao do sequencial).
 A análise informa quantas execuções falharam. Na medição do OpenMP, as 107
-execuções deram `ok=SIM`.
+execuções deram `ok=SIM`; na do MPI, as 56 execuções também.
 
 ## Resultados e discussão
 
 - `docs/baseline.md`: complexidade, perfilamento, Amdahl e protocolo de medição.
 - `docs/openmp.md`: corrida (critical × atomic × reduction), escalonamento,
   escalabilidade forte e fraca, e o afastamento em relação a Amdahl.
+- `docs/mpi.md`: decomposição de domínio, coletivas, overhead de comunicação,
+  escalabilidade forte e fraca.
 - `resultados/`: CSVs brutos, tabelas e gráficos (`*_tempo.svg`, `*_speedup.svg`,
-  `*_eficiencia.svg`, `*_fraca.svg`, `*_corrida.svg`, `*_schedule.svg`).
+  `*_eficiencia.svg`, `*_fraca.svg`, `*_corrida.svg`, `*_schedule.svg`, `mpi_comm.svg`).
 
 Máquina de medição: notebook Intel Core i5-1235U (2 núcleos P + 8 núcleos E, 12 threads).

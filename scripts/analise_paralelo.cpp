@@ -5,10 +5,11 @@
  * e resultados/tabela_baseline.csv (gerada por analise_baseline) para o tempo sequencial.
  *
  * Gera, para cada experimento presente no CSV:
- *   forte    -> <versao>_forte.csv, <versao>_speedup.svg, <versao>_eficiencia.svg
+ *   forte    -> <versao>_forte.csv, <versao>_tempo.svg, <versao>_speedup.svg, <versao>_eficiencia.svg
  *   corrida  -> <versao>_corrida.csv, <versao>_corrida.svg
  *   schedule -> <versao>_schedule.csv, <versao>_schedule.svg
  *   fraca    -> <versao>_fraca.csv, <versao>_fraca.svg
+ *   comm     -> <versao>_comm_tabela.csv, <versao>_comm.svg  (se existir resultados/<versao>_comm.csv)
  *
  * Compilar: make analise      Executar: ./scripts/analise_paralelo openmp   (ou mpi)
  *
@@ -153,14 +154,18 @@ int main(int argc, char** argv) {
         printf("\n== Escalabilidade forte (N=%ld, T_seq=%.4f s) ==\n%6s %10s %9s %11s\n", Nf, ts, rot.c_str(), "tempo_s", "speedup", "eficiencia");
         ofstream o("resultados/" + v + "_forte.csv"); o << "p,tempo_s,speedup,eficiencia\n";
         Serie s{"medido", CORES[0]}, id{"ideal (S = p)", "#999999", {}, true}, e{"medida", CORES[0]}, e1{"ideal (100%)", "#999999", {}, true};
+        Serie tm{"medido", CORES[0]}, tid{"ideal (T_seq / p)", "#999999", {}, true};
         for (auto& [p, t] : forte) {
             double S = ts / t, E = S / p;
             printf("%6d %10.4f %9.3f %10.1f%%\n", p, t, S, 100 * E);
             o << p << "," << t << "," << S << "," << E << "\n";
             s.pts.push_back({p, S}); id.pts.push_back({p, p}); e.pts.push_back({p, 100 * E}); e1.pts.push_back({p, 100});
+            tm.pts.push_back({p, t}); tid.pts.push_back({p, ts / p});
         }
         grafico_linhas("resultados/" + v + "_speedup.svg", "Speedup " + v + " (N=" + num(Nf / 1e6) + "M, K=8, 20 iteracoes)",
                        "Numero de " + rot, "Speedup (T_seq / T_p)", {s, id});
+        grafico_linhas("resultados/" + v + "_tempo.svg", "Tempo de execucao " + v + " (N=" + num(Nf / 1e6) + "M)",
+                       "Numero de " + rot, "Tempo (s, mediana)", {tm, tid});
         grafico_linhas("resultados/" + v + "_eficiencia.svg", "Eficiencia " + v + " (N=" + num(Nf / 1e6) + "M)",
                        "Numero de " + rot, "Eficiencia (%)", {e, e1}, 100);
     }
@@ -220,6 +225,31 @@ int main(int argc, char** argv) {
         }
         grafico_linhas("resultados/" + v + "_fraca.svg", "Escalabilidade fraca " + v + " (N proporcional a p)",
                        "Numero de " + rot, "Eficiencia fraca (%)", {e, e1}, 100);
+    }
+    // ---------------- overhead de comunicacao (so MPI: resultados/mpi_comm.csv)
+    {
+        ifstream f("resultados/" + v + "_comm.csv"); string l;
+        if (f) {
+            map<int, pair<vector<double>, vector<double>>> C;   // p -> (tempos, comm)
+            getline(f, l);
+            while (getline(f, l)) {
+                auto c = separa(l); if (c.size() < 6 || c[0] != "forte") continue;
+                C[stoi(c[2])].first.push_back(stod(c[4])); C[stoi(c[2])].second.push_back(stod(c[5]));
+            }
+            printf("\n== Overhead de comunicacao (experimento forte, mediana) ==\n%6s %10s %10s %10s %9s\n",
+                   rot.c_str(), "tempo_s", "comm_s", "calculo_s", "comm/%");
+            ofstream o("resultados/" + v + "_comm_tabela.csv"); o << "p,tempo_s,comm_s,calculo_s,pct_comm\n";
+            Serie st{"tempo total", CORES[0]}, sc{"calculo (total - comm)", CORES[2]}, sm{"comm (Allreduce + espera)", CORES[1]};
+            for (auto& [p, tc] : C) {
+                double t = mediana(tc.first), c = mediana(tc.second);
+                printf("%6d %10.4f %10.4f %10.4f %8.1f%%\n", p, t, c, t - c, 100 * c / t);
+                o << p << "," << t << "," << c << "," << t - c << "," << 100 * c / t << "\n";
+                st.pts.push_back({p, t}); sc.pts.push_back({p, t - c}); sm.pts.push_back({p, c});
+            }
+            if (!C.empty())
+                grafico_linhas("resultados/" + v + "_comm.svg", "Calculo x comunicacao " + v + " (N=20M)",
+                               "Numero de " + rot, "Tempo (s, mediana)", {st, sc, sm});
+        }
     }
     printf("\nTabelas e graficos gravados em resultados/%s_*\n", v.c_str());
     return 0;
